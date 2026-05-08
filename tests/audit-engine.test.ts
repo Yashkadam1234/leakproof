@@ -16,8 +16,8 @@ describe("audit-engine", () => {
   it("flags Team plan for 2 seats as oversized", () => {
     const input: AuditInput = {
       toolId: "claude",
-      planId: "claude-team",
-      monthlySpend: 60,
+      planId: "claude-team-standard",
+      monthlySpend: 50,
       seats: 2,
       useCase: "writing",
     };
@@ -34,8 +34,8 @@ describe("audit-engine", () => {
   it("does not flag Team plan for 6 seats", () => {
     const input: AuditInput = {
       toolId: "claude",
-      planId: "claude-team",
-      monthlySpend: 180,
+      planId: "claude-team-standard",
+      monthlySpend: 150,
       seats: 6,
       useCase: "coding",
     };
@@ -100,7 +100,7 @@ describe("audit-engine", () => {
       },
       {
         toolId: "chatgpt",
-        planId: "chatgpt-team",
+        planId: "chatgpt-business",
         monthlySpend: 300,
         seats: 10,
         useCase: "mixed",
@@ -127,7 +127,7 @@ describe("audit-engine", () => {
       },
       {
         toolId: "github-copilot",
-        planId: "copilot-individual",
+        planId: "copilot-free",
         monthlySpend: 200,
         seats: 2,
         useCase: "coding",
@@ -146,7 +146,7 @@ describe("audit-engine", () => {
   it("marks user as optimal when on correct plan", () => {
     const input: AuditInput = {
       toolId: "github-copilot",
-      planId: "copilot-individual",
+      planId: "copilot-free",
       monthlySpend: 10,
       seats: 1,
       useCase: "coding",
