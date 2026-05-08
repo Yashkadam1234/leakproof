@@ -1,8 +1,8 @@
 # DEVLOG.md
 
-## Day 1 — 2025-01-XX
+## Day 1 — 2026-05-07
 
-**Hours worked:** X
+**Hours worked:** 3.5 
 
 **What I did:** Initialized Leakproof with Next.js 14, TypeScript strict 
 mode, Tailwind, shadcn/ui. Created types/index.ts with all core interfaces. 
@@ -22,3 +22,39 @@ the AuditForm localStorage persistence works correctly across browsers.
 
 **Plan for tomorrow:** AuditForm component with all 8 tools, localStorage 
 persistence, landing page hero, Supabase setup, CI workflow file.
+
+## Day 2 — 2026-05-08
+
+**Hours worked:** 4 
+
+**What I did:** Built AuditForm component with 
+all 8 tools, plan dropdowns, seat count, monthly 
+spend input, and use case selector. Wired 
+localStorage persistence using useEffect so form 
+state survives page reloads. Built landing page 
+with hero section and form integration. Set up 
+Supabase client with environment variables. Added 
+CI workflow file.
+
+**What I learned:** shadcn/ui components need to 
+be installed individually via CLI — npx shadcn@latest 
+add button — before they can be imported. The 
+import alone does not create the file. Also learned 
+that ESLint's react-hooks/set-state-in-effect rule 
+flags setState calls inside useEffect even when the 
+pattern is legitimate. Fixed by adding a useRef 
+guard and targeted eslint-disable comments, then 
+removed the unnecessary ones with --fix.
+
+**Blockers / what I'm stuck on:** The setState 
+inside useEffect lint error took longer than 
+expected to resolve. The ref guard pattern silenced 
+the cascading render concern but ESLint still flagged 
+individual lines — had to use inline disable comments 
+which then became unused after the rule stopped 
+triggering, requiring a second --fix pass to clean up.
+
+**Plan for tomorrow:** AuditResults page, ToolCard 
+component, Anthropic API integration with fallback 
+template, and the audit creation API route that 
+saves to Supabase and returns a slug.
