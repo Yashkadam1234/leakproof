@@ -1,60 +1,101 @@
-# DEVLOG.md
+ # DEVLOG.md
 
 ## Day 1 — 2026-05-07
 
-**Hours worked:** 3.5 
+**Hours worked:** 3.5
 
-**What I did:** Initialized Leakproof with Next.js 14, TypeScript strict 
-mode, Tailwind, shadcn/ui. Created types/index.ts with all core interfaces. 
-Implemented audit-engine.ts with 4 rule checks — plan fit, cheaper same 
-tool, alternative tool, and Credex opportunity trigger. Wrote 8 Vitest 
-tests. Hit 2 failing tests on first run.
+**What I did:** Set up the project — Next.js 14, 
+TypeScript strict, Tailwind, shadcn/ui. Built 
+types/index.ts and the full audit engine with 4 
+rule checks. Wrote 8 Vitest tests. Two failed on 
+first run which took a while to debug.
 
-**What I learned:** Bug 1 — test expectation was wrong, not the engine. 
-A Team plan with 2 seats IS overspending, not just suboptimal. Fixed the 
-test. Bug 2 — checkAlternativeTool had no case for ChatGPT coding use case 
-at all, so it returned null. Added the missing case suggesting Cursor Pro. 
-All 8 tests now pass. Also learned that usage-based billing tools need a 
-different evaluation path than seat-based tools.
+**What I learned:** First failing test — I assumed 
+the engine was wrong but actually the test 
+expectation was wrong. A Team plan with 2 seats 
+really is overspending not just suboptimal. Second 
+failing test — checkAlternativeTool had no case 
+for ChatGPT at all, it just returned null silently. 
+Took me a bit to realise the function was not even 
+reaching the check.
 
-**Blockers / what I'm stuck on:** None going into Day 2. Want to make sure 
-the AuditForm localStorage persistence works correctly across browsers.
+**Blockers / what I'm stuck on:** Tests pass now 
+but I am not fully confident the audit logic covers 
+enough edge cases. Usage-based tools like the 
+Anthropic API feel under-handled — I basically just 
+let the user enter their spend and skip the plan-fit 
+check. Not sure if that is good enough.
 
-**Plan for tomorrow:** AuditForm component with all 8 tools, localStorage 
-persistence, landing page hero, Supabase setup, CI workflow file.
+**Plan for tomorrow:** AuditForm with all 8 tools, 
+localStorage persistence, landing page, Supabase 
+setup, CI workflow.
+
+---
 
 ## Day 2 — 2026-05-08
 
-**Hours worked:** 4 
+**Hours worked:** 4
 
-**What I did:** Built AuditForm component with 
-all 8 tools, plan dropdowns, seat count, monthly 
-spend input, and use case selector. Wired 
-localStorage persistence using useEffect so form 
-state survives page reloads. Built landing page 
-with hero section and form integration. Set up 
-Supabase client with environment variables. Added 
-CI workflow file.
+**What I did:** Built AuditForm with all 8 tools, 
+plan dropdowns, seat count, spend input, use case 
+selector. Wired localStorage so form survives 
+refresh. Built the landing page hero. Set up 
+Supabase client. Got CI workflow running.
 
-**What I learned:** shadcn/ui components need to 
-be installed individually via CLI — npx shadcn@latest 
-add button — before they can be imported. The 
-import alone does not create the file. Also learned 
-that ESLint's react-hooks/set-state-in-effect rule 
-flags setState calls inside useEffect even when the 
-pattern is legitimate. Fixed by adding a useRef 
-guard and targeted eslint-disable comments, then 
-removed the unnecessary ones with --fix.
+**What I learned:** shadcn/ui components do not 
+exist just because you import them — you have to 
+run the CLI command for each one individually. 
+Spent probably 20 minutes confused about why the 
+import was failing before I figured that out. Also 
+the ESLint setState-in-effect rule is stricter than 
+I expected — even with a ref guard it still flagged 
+individual lines. Had to add inline disable comments 
+then run --fix to clean up the ones that became 
+redundant. Annoying but fine.
 
-**Blockers / what I'm stuck on:** The setState 
-inside useEffect lint error took longer than 
-expected to resolve. The ref guard pattern silenced 
-the cascading render concern but ESLint still flagged 
-individual lines — had to use inline disable comments 
-which then became unused after the rule stopped 
-triggering, requiring a second --fix pass to clean up.
+**Blockers / what I'm stuck on:** CI went green 
+which is good. But I have not actually tested the 
+form end to end yet — there is no API route to POST 
+to so the submit just errors. Will fix tomorrow 
+when I build the audit route.
 
-**Plan for tomorrow:** AuditResults page, ToolCard 
-component, Anthropic API integration with fallback 
-template, and the audit creation API route that 
-saves to Supabase and returns a slug.
+**Plan for tomorrow:** AuditResults page, ToolCard, 
+Anthropic API integration, audit creation API route.
+
+---
+
+## Day 3 — 2026-05-09
+
+**Hours worked:** 6
+
+**What I did:** Built AuditResults and ToolCard 
+with color coded borders. Built the audit API 
+route — it runs the engine, calls Anthropic, saves 
+to Supabase, returns a slug. Integrated Anthropic 
+with a fallback for when the API fails. Built the 
+public /audit/[slug] page. Wrote PROMPTS.md.
+
+**What I learned:** The prompt took way more 
+iteration than I expected. First version just said 
+summarize this in 100 words and the output was 
+terrible — generic and always started with "Here 
+is your summary:" which looked awful in the UI. 
+Had to add a lot of explicit constraints. The line 
+about "something a CTO would forward internally" 
+was the one that actually changed the tone. Also 
+hit a Next.js 15 breaking change — params is now 
+a Promise and needs to be awaited before accessing 
+slug. Took me a moment to figure out why the page 
+was throwing on every request.
+
+**Blockers / what I'm stuck on:** Noticed a logic 
+bug — GitHub Copilot Team plan showed status as 
+"Optimized" in the card but the recommended action 
+said "Downgrade to individual plan." Those two 
+contradict each other. The engine is returning the 
+right recommendation but the status field is wrong. 
+Need to fix this tomorrow.
+
+**Plan for tomorrow:** Lead capture API, Resend 
+email integration, OG image generation, fix the 
+status contradiction bug in the audit engine.
