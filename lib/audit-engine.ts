@@ -51,20 +51,32 @@ export const TOOLS_CATALOG: Tool[] = [
         plansAvailable: [
             {
                 id: "copilot-free",
-                name: "free",
+                name: "Free",
                 pricePerSeat: 0,
+                billingType: "flat",
+            },
+            {
+                id: "copilot-pro",
+                name: "Pro",
+                pricePerSeat: 10,
+                billingType: "per_seat",
+            },
+            {
+                id: "copilot-pro-plus",
+                name: "Pro+",
+                pricePerSeat: 39,
                 billingType: "per_seat",
             },
             {
                 id: "copilot-business",
-                name: "Team",
-                pricePerSeat: 4,
+                name: "Business",
+                pricePerSeat: 19,
                 billingType: "per_seat",
             },
             {
                 id: "copilot-enterprise",
                 name: "Enterprise",
-                pricePerSeat: 21,
+                pricePerSeat: 39,
                 billingType: "per_seat",
             },
         ],
@@ -315,16 +327,35 @@ export function checkPlanFit(input: AuditInput): AuditResult {
         plan.name.toLowerCase().includes("business");
 
     if (isTeamPlan && input.seats < 5) {
+        const toolReasons: Record<string, string> = {
+            "cursor": "Cursor Business is designed for larger engineering teams — smaller teams rarely use the admin controls that justify the higher seat cost.",
+            "github-copilot": `At ${input.seats} seat${input.seats > 1 ? "s" : ""} the Team plan costs $${input.monthlySpend}/month. GitHub Copilot Free covers core AI code completion for small teams — the Team plan SSO and admin controls typically only justify the cost at 5 or more seats.`, "claude": "Claude Team plan pricing makes more sense once you have enough seats to justify centralized billing and usage visibility.",
+            "chatgpt": "ChatGPT Business features like shared workspaces and admin controls deliver most value at 5 or more seats.",
+            "windsurf": "Windsurf Teams plan admin features are generally underutilized by very small engineering teams.",
+        };
+
+        const toolActions: Record<string, string> = {
+            "github-copilot": "Evaluate GitHub Copilot Free for small teams",
+            "cursor": "Downgrade to Cursor Pro",
+            "claude": "Downgrade to Claude Pro",
+            "chatgpt": "Downgrade to ChatGPT Plus",
+            "windsurf": "Downgrade to Windsurf Pro",
+        };
+
+        const reason =
+            toolReasons[input.toolId] ??
+            "Team plans typically become cost-effective only once admin and governance overhead matters across multiple users.";
+
+        const recommendedAction =
+            toolActions[input.toolId] ??
+            "Downgrade to an individual plan";
+
         return {
             toolId: input.toolId,
             currentMonthlyCost,
-            recommendedAction: "Downgrade to an individual/pro plan",
-            estimatedSavings:
-                (plan.pricePerSeat - 20) * input.seats > 0
-                    ? (plan.pricePerSeat - 20) * input.seats
-                    : 0,
-            reason:
-                "Team/business plans typically become cost-effective only once admin and governance overhead matters across multiple users.",
+            recommendedAction,
+            estimatedSavings: Math.max(0, input.monthlySpend * 0.3),
+            reason,
             status: "overspending",
         };
     }
@@ -545,7 +576,7 @@ export function checkAlternativeTool(
             toolId: input.toolId,
             currentMonthlyCost: input.monthlySpend,
             recommendedAction: "Evaluate Cursor Pro for coding workflows",
-            estimatedSavings: 0,
+            estimatedSavings: input.monthlySpend * 0.1,
             reason:
                 "Cursor Pro is purpose-built for coding with IDE integration at the same price point as ChatGPT Plus.",
             status: "suboptimal",
@@ -615,12 +646,27 @@ export function generateAuditReport(
          * This mirrors how procurement teams prioritize:
          * largest measurable ROI first.
          */
-        const bestRecommendation = candidates.reduce((best, current) => {
-            return current.estimatedSavings > best.estimatedSavings
-                ? current
-                : best;
-        });
+        const STATUS_PRIORITY: Record<string, number> = {
+            overspending: 3,
+            suboptimal: 2,
+            optimal: 1,
+        };
 
+        const bestRecommendation = candidates.reduce((best, current) => {
+            // if current has higher savings pick it
+            if (current.estimatedSavings > best.estimatedSavings) {
+                return current;
+            }
+
+            // if savings are equal pick the one with higher priority status
+            if (current.estimatedSavings === best.estimatedSavings) {
+                const currentPriority = STATUS_PRIORITY[current.status] ?? 0;
+                const bestPriority = STATUS_PRIORITY[best.status] ?? 0;
+                return currentPriority > bestPriority ? current : best;
+            }
+
+            return best;
+        });
         results.push(bestRecommendation);
     }
 
