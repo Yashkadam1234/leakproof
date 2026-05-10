@@ -83,17 +83,18 @@ export default function ToolCard({
           {result.estimatedSavings > 0 ? (
             <div className="rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
               Save $
-              {result.estimatedSavings.toFixed(
-                0
-              )}
+              {result.estimatedSavings.toFixed(0)}
               /mo
+            </div>
+          ) : result.status === "suboptimal" ? (
+            <div className="rounded-full bg-yellow-100 px-4 py-2 text-sm font-medium text-yellow-700">
+              Review plan
             </div>
           ) : (
             <div className="rounded-full bg-neutral-100 px-4 py-2 text-sm font-medium text-neutral-600">
               Optimized
             </div>
           )}
-
           <div className="max-w-sm text-sm leading-6 text-neutral-600 lg:text-right">
             {result.reason}
           </div>

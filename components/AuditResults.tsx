@@ -12,7 +12,10 @@ export default function AuditResults({
     report,
 }: AuditResultsProps) {
     const isEfficient =
-        report.totalMonthlySavings < 100;
+        report.totalMonthlySavings === 0 &&
+        report.results.every(
+            (result) => result.status === "optimal"
+        );
 
     return (
         <div className="min-h-screen bg-white">
@@ -28,12 +31,10 @@ export default function AuditResults({
                                 <h1 className="text-5xl font-semibold tracking-tight text-balance lg:text-6xl">
                                     You could save{" "}
                                     <span className="text-green-600">
-                                        $
-                                        {report.totalMonthlySavings.toLocaleString()}
+                                        ${Math.round(report.totalMonthlySavings).toLocaleString()}
                                         /month
                                     </span>{" "}
-                                    — $
-                                    {report.totalAnnualSavings.toLocaleString()}
+                                    — ${Math.round(report.totalAnnualSavings).toLocaleString()}
                                     /year
                                 </h1>
 
@@ -57,7 +58,7 @@ export default function AuditResults({
 
                                     <div className="mt-2 text-3xl font-semibold tracking-tight">
                                         $
-                                        {report.totalAnnualSavings.toLocaleString()}
+                                        {Math.round(report.totalAnnualSavings).toLocaleString()}
                                     </div>
                                 </div>
                             </div>
