@@ -45,31 +45,31 @@ export default function AuditForm({
    */
   const hasRestoredRef = useRef(false);
 
-/**
- * Restore persisted form state on mount.
- * Disabling the lint rule here because restoring
- * from localStorage on mount is a valid use case.
- * The ref guard prevents cascading renders.
- */
-useEffect(() => {
-  if (hasRestoredRef.current) return;
-  hasRestoredRef.current = true;
+  /**
+   * Restore persisted form state on mount.
+   * Disabling the lint rule here because restoring
+   * from localStorage on mount is a valid use case.
+   * The ref guard prevents cascading renders.
+   */
+  useEffect(() => {
+    if (hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
 
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) return;
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored) return;
 
-  try {
-    const parsed = JSON.parse(stored) as LocalFormState;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (parsed.inputs) setInputs(parsed.inputs);
-     
-    if (parsed.teamSize) setTeamSize(parsed.teamSize);
-     
-    if (parsed.primaryUseCase) setPrimaryUseCase(parsed.primaryUseCase);
-  } catch (error) {
-    console.error("Failed to restore audit form state", error);
-  }
-}, []);
+    try {
+      const parsed = JSON.parse(stored) as LocalFormState;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (parsed.inputs) setInputs(parsed.inputs);
+
+      if (parsed.teamSize) setTeamSize(parsed.teamSize);
+
+      if (parsed.primaryUseCase) setPrimaryUseCase(parsed.primaryUseCase);
+    } catch (error) {
+      console.error("Failed to restore audit form state", error);
+    }
+  }, []);
   /**
    * Persist every meaningful state change.
    */
@@ -257,8 +257,8 @@ useEffect(() => {
                       setPrimaryUseCase(useCase)
                     }
                     className={`rounded-lg border px-3 py-2 text-sm capitalize transition ${primaryUseCase === useCase
-                        ? "border-black bg-black text-white"
-                        : "border-neutral-200 bg-white hover:bg-neutral-50"
+                      ? "border-black bg-black text-white"
+                      : "border-neutral-200 bg-white hover:bg-neutral-50"
                       }`}
                   >
                     {useCase}
@@ -405,24 +405,21 @@ useEffect(() => {
                         />
                       </div>
 
-                      <div className="space-y-2">
-                        <Label>Seats</Label>
-
-                        <Input
-                          type="number"
-                          min={1}
-                          value={input.seats}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            updateInput(
-                              input.toolId,
-                              "seats",
-                              Number(
-                                e.target.value
-                              )
-                            )
-                          }
-                        />
-                      </div>
+                      {tool.plansAvailable.find(
+                        (p) => p.id === input.planId
+                      )?.billingType !== "usage_based" && (
+                          <div className="space-y-2">
+                            <Label>Seats</Label>
+                            <Input
+                              type="number"
+                              min={1}
+                              value={input.seats}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                                updateInput(input.toolId, "seats", Number(e.target.value))
+                              }
+                            />
+                          </div>
+                        )}
                     </div>
 
                     {errors[input.toolId] && (
