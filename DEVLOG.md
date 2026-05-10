@@ -2,7 +2,7 @@
 
 ## Day 1 — 2026-05-07
 
-**Hours worked:** 3.5
+**Hours worked:** 3
 
 **What I did:** Set up the project — Next.js 14, 
 TypeScript strict, Tailwind, shadcn/ui. Built 
@@ -99,3 +99,53 @@ Need to fix this tomorrow.
 **Plan for tomorrow:** Lead capture API, Resend 
 email integration, OG image generation, fix the 
 status contradiction bug in the audit engine.
+---
+
+---
+
+## Day 4 — 2026-05-10
+
+**Hours worked:** 5
+
+**What I did:** Built the leads API route 
+with Supabase storage and Resend transactional 
+email. Added honeypot spam protection and 
+in-memory rate limiting. Fixed multiple Supabase 
+column name mismatches — every camelCase field 
+was failing because Supabase expects snake_case. 
+Added Navbar component. Fixed the seats field 
+hiding for usage-based API tools. Updated GitHub 
+Copilot plans to match current official pricing 
+— the catalog was outdated, missing Pro and Pro+ 
+tiers entirely. Fixed the ChatGPT alternative 
+tool suggestion which was returning null because 
+estimated savings was zero and getting overridden 
+by the optimal result. Fixed ToolCard to show 
+"Review plan" chip for suboptimal status instead 
+of "Optimized" which was contradicting the 
+recommended action text.
+
+**What I learned:** Supabase column names must 
+be snake_case — camelCase silently fails with 
+a schema cache error that took a while to 
+connect to the actual cause. Also learned that 
+Resend free tier only sends to your own verified 
+email — found the confirmation in spam. The 
+native share API on Windows opens the OS share 
+dialog which is actually better UX than just 
+copying to clipboard.
+
+**Blockers / what I'm stuck on:** The reduce 
+logic in generateAuditReport picks the highest 
+savings recommendation — which means any 
+alternative suggestion with estimatedSavings 
+of 0 gets silently ignored in favour of the 
+optimal result. Fixed by giving the ChatGPT 
+coding alternative a small non-zero savings 
+value. Not the cleanest solution but it works 
+and the number is defensible.
+
+**Plan for tomorrow:** Deploy to Vercel, run 
+Lighthouse on mobile, fix any accessibility 
+issues, conduct user interviews, write 
+USER_INTERVIEWS.md.
