@@ -65,7 +65,7 @@ export async function generateMetadata({
   const monthlySavings =
     report.totalMonthlySavings.toLocaleString();
 
-  const title = `This team could save $${monthlySavings}/month on AI tools`;
+  const title = `This team could save $${monthlySavings}/month on AI tools — Leakproof`;
 
   const description =
     report.aiSummary.length > 120
