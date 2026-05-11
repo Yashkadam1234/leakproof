@@ -8,9 +8,11 @@
 - Enterprise: Custom — https://cursor.com/pricing — verified 2026-05-07
 
 ## GitHub Copilot
-- Free: $0 — https://github.com/features/copilot — verified 2026-05-07
-- Team : $4/user/month — https://github.com/features/copilot — verified 2026-05-07
-- Enterprise: $21/user/month — https://github.com/features/copilot — verified 2026-05-07
+- Free: $0 — https://github.com/features/copilot — verified 2026-05-10
+- Pro: $10/user/month — https://github.com/features/copilot — verified 2026-05-10
+- Pro+: $39/user/month — https://github.com/features/copilot — verified 2026-05-10
+- Business: $19/user/month — https://github.com/features/copilot — verified 2026-05-10
+- Enterprise: $39/user/month — https://github.com/features/copilot — verified 2026-05-10
 
 ## Claude (Anthropic)
 - Free: $0 — https://anthropic.com/pricing — verified 2026-05-07
