@@ -62,8 +62,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-white text-neutral-900">
       <section className="border-b border-neutral-200">
-        <div className="mx-auto flex max-w-7xl flex-col px-6 py-20 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <div className="max-w-3xl">
+<div className="mx-auto flex max-w-7xl flex-col px-6 pt-6 pb-14 lg:flex-row lg:items-center lg:justify-between lg:px-8">   <div className="mx-auto max-w-5xl px-6 py-20 lg:px-8">
             <div className="mb-6 inline-flex items-center rounded-full border border-neutral-200 bg-neutral-50 px-4 py-2 text-sm text-neutral-600">
               AI tooling costs are compounding
               faster than most teams realize.
@@ -75,7 +74,7 @@ export default function HomePage() {
               for.
             </h1>
 
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600">
+            <p className="mt-3 max-w-2xl text-lg leading-8 text-neutral-600">
               Most engineering teams now pay
               for overlapping copilots, unused
               enterprise plans, and AI seats
