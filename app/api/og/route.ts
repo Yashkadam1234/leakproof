@@ -160,7 +160,6 @@ function createAuditImage(
           style: {
             display: "flex",
             flexDirection: "column",
-            zIndex: 2,
           },
         },
 
