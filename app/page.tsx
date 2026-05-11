@@ -10,7 +10,7 @@ import type { AuditInput } from "@/types";
 export default function HomePage() {
   const router = useRouter();
 
-  const [isSubmitting, setIsSubmitting] =
+  const [isSubmitting, setIsSubmitting] 
     useState(false);
 
   const [error, setError] = useState<string | null>(
