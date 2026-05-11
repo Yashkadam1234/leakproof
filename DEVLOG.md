@@ -179,7 +179,7 @@ does not show OG image previews — only Twitter,
 LinkedIn and Telegram do.
 
 **Blockers / what I'm stuck on:** Performance 
-score is sitting at 78-86 range depending on 
+score is sitting at 75-86 range depending on 
 the run — sometimes below the 85 target. The bottleneck 
 is Total Blocking Time from the JavaScript 
 bundle.not do yet with the user interview 
