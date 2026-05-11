@@ -85,7 +85,7 @@ export async function generateMetadata({
       type: "website",
       images: [
         {
-          url: `/api/og?slug=${slug}`,
+          url: `${process.env.NEXT_PUBLIC_APP_URL}/api/og?slug=${slug}`,
           width: 1200,
           height: 630,
           alt: "Leakproof AI Spend Audit",
