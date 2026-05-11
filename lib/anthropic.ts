@@ -1,4 +1,6 @@
 import type { AuditReport } from "@/types";
+import { TOOLS_CATALOG } from "@/lib/audit-engine";
+
 
 const ANTHROPIC_API_URL =
   "https://api.anthropic.com/v1/messages";
@@ -30,29 +32,28 @@ Audit report data:
 function buildFallbackSummary(
   report: AuditReport
 ): string {
-  const totalTools = report.inputs.length;
-
-  const overspendingCount =
-    report.results.filter(
-      (result) =>
-        result.status === "overspending"
-    ).length;
-
-  const optimizedCount =
-    report.results.filter(
-      (result) =>
-        result.status === "optimal"
-    ).length;
-
   const toolNames = report.inputs
-    .map((input) => input.toolId)
+    .map((i) => {
+      const tool = TOOLS_CATALOG.find((t) => t.id === i.toolId);
+      return tool?.name ?? i.toolId;
+    })
     .join(", ");
 
+  const overspendingCount = report.results.filter(
+    (result) => result.status === "overspending"
+  ).length;
+
+  const optimizedCount = report.results.filter(
+    (result) => result.status === "optimal"
+  ).length;
+
+  const toolCount = report.inputs.length;
+
   if (report.totalMonthlySavings < 100) {
-    return `Your current AI tooling stack appears relatively efficient across ${totalTools} active tools, with limited unnecessary spend identified during the audit. Most subscriptions appear appropriately matched to team size and workflow requirements, particularly across ${toolNames}. While there may still be opportunities to consolidate procurement and monitor seat utilization as adoption grows, the current setup does not show major signs of duplicated tooling or oversized enterprise commitments. Continuing to review usage patterns quarterly will help maintain cost efficiency as AI vendors frequently adjust pricing, packaging, and feature availability.`;
+    return `Your current AI tooling stack appears relatively efficient across ${toolCount} active tool${toolCount > 1 ? "s" : ""}, with limited unnecessary spend identified during the audit. Most subscriptions appear appropriately matched to team size and workflow requirements, particularly across ${toolNames}. While there may still be opportunities to consolidate procurement and monitor seat utilization as adoption grows, the current setup does not show major signs of duplicated tooling or oversized enterprise commitments. Continuing to review usage patterns quarterly will help maintain cost efficiency as AI vendors frequently adjust pricing, packaging, and feature availability.`;
   }
 
-  return `We identified approximately $${report.totalMonthlySavings.toLocaleString()}/month in potential AI tooling savings across ${totalTools} active subscriptions. The largest optimization opportunities come from oversized plans, overlapping capabilities, and premium tiers that may not fully align with the team's current workflows. ${overspendingCount > 0 ? `Several tools appear materially over-provisioned for current usage patterns, while ${optimizedCount} subscriptions already appear well aligned with operational needs.` : `Most tools are reasonably aligned operationally, though targeted consolidation opportunities still exist.`} Based on the current stack, reducing unnecessary spend should be achievable without materially impacting developer productivity, research velocity, or day-to-day collaboration workflows.`;
+  return `We identified approximately $${report.totalMonthlySavings.toLocaleString()}/month in potential AI tooling savings across ${toolCount} active subscription${toolCount > 1 ? "s" : ""}. The largest optimization opportunities come from oversized plans, overlapping capabilities, and premium tiers that may not fully align with the team's current workflows. ${overspendingCount > 0 ? `Several tools appear materially over-provisioned for current usage patterns, while ${optimizedCount} subscription${optimizedCount !== 1 ? "s" : ""} already appear well aligned with operational needs.` : `Most tools are reasonably aligned operationally, though targeted consolidation opportunities still exist.`} Based on the current stack, reducing unnecessary spend should be achievable without materially impacting developer productivity or day-to-day collaboration workflows.`;
 }
 
 export async function generateAuditSummary(
