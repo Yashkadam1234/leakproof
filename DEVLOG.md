@@ -149,3 +149,44 @@ and the number is defensible.
 Lighthouse on mobile, fix any accessibility 
 issues, conduct user interviews, write 
 USER_INTERVIEWS.md.
+
+---
+
+## Day 5 — 2026-05-11
+
+**Hours worked:** 4
+
+**What I did:** Deployed to Vercel and tested 
+the full end-to-end flow on the live URL. Ran 
+Lighthouse on mobile. Fixed the hero section 
+layout — there were two nested container divs 
+with conflicting max-widths causing the content 
+to shift left. Fixed a missing anchor tag that 
+broke the entire page JSX. Got OG image working 
+on Twitter — tested on opengraph.xyz and the 
+rich preview card shows correctly with the 
+Leakproof branding and savings number.
+
+**What I learned:** Lighthouse scores fluctuate 
+a lot between runs — got anywhere from 73 to 86 
+on the same page without changing anything. The 
+dynamic import for AuditForm actually made Total 
+Blocking Time worse (840ms to 1230ms) so I 
+reverted it. The main bottleneck is shadcn/ui 
+bundle size on slow 4G mobile simulation — hard 
+to fix without switching UI libraries. WhatsApp 
+does not show OG image previews — only Twitter, 
+LinkedIn and Telegram do.
+
+**Blockers / what I'm stuck on:** Performance 
+score is sitting at 75-86 range depending on 
+the run — sometimes below the 85 target. The bottleneck 
+is Total Blocking Time from the JavaScript 
+bundle.not do yet with the user interview 
+today — will follow up tomorrow and write 
+USER_INTERVIEWS.md on Day 6.
+
+**Plan for tomorrow:** Write GTM.md, ECONOMICS.md, 
+METRICS.md, LANDING_COPY.md, ARCHITECTURE.md, 
+TESTS.md, USER_INTERVIEWS.md once interviews 
+are done.
