@@ -223,11 +223,7 @@ export async function POST(
       });
 
     if (error) {
-      console.error(
-        "Failed to save audit:",
-        error
-      );
-
+      console.error("Failed to save audit:",error);
       return NextResponse.json(
         {
           error:
