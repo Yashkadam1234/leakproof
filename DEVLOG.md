@@ -190,3 +190,50 @@ USER_INTERVIEWS.md on Day 6.
 METRICS.md, LANDING_COPY.md, ARCHITECTURE.md, 
 TESTS.md, USER_INTERVIEWS.md once interviews 
 are done.
+
+
+## Day 6 — 2026-05-12
+
+**Hours worked:** 5
+
+**What I did:** Spent most of today on the
+business/documentation side of the assignment.
+Wrote GTM.md — defined who would actually use
+this (engineering managers / CTOs at Series A
+startups), where they hang out, and a realistic
+30-day plan to get the first users without paid
+ads. Wrote ECONOMICS.md with rough funnel math,
+lead value, CAC assumptions, and tried to sanity
+check whether this could realistically become a
+customer acquisition wedge for Credex. Finished
+METRICS.md with the North Star metric and the
+few events worth tracking early instead of
+overcomplicating analytics. Wrote LANDING_COPY.md
+(hero, CTA, FAQ, mocked testimonials) and
+ARCHITECTURE.md with the Mermaid diagram + data
+flow explanation. Also documented tests in
+TESTS.md. Had to redo part of the work because
+the DEVLOG file I was writing in earlier did not
+save properly.
+
+**What I learned:** The non-coding part of
+building something is harder than I expected.
+Writing GTM and economics forced me to actually
+think through whether people would use this and
+how Credex would benefit instead of just making
+something look good. Also realized DAU is not a
+useful metric here since teams would probably
+only run this every few months — qualified leads
+matter way more.
+
+**Blockers / what I'm stuck on:** Still have not
+done the user interviews yet, so
+USER_INTERVIEWS.md is pending. Also rushed a few
+parts toward the end because I spent more time
+than expected trying to make the assumptions and
+numbers feel realistic instead of generic.
+
+**Plan for tomorrow:** Finish USER_INTERVIEWS.md,
+do one final review of all docs, and make sure
+everything matches the actual product before
+submission.
