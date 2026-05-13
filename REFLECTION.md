@@ -83,12 +83,20 @@ when you are deferring something the
 user does not immediately need. For 
 the primary UI they make things worse.
 
-The performance score stayed in the 
-75-83 range. I did not find a clean fix 
-within the time available. The honest 
-answer is that shadcn/ui adds bundle 
-weight that is hard to eliminate without 
-switching component libraries.
+Lighthouse performance score stayed in the 
+71-83 range despite multiple optimization 
+attempts. Best score achieved was 83 on 
+one run. The main bottleneck is 342 KiB 
+of unused JavaScript from shadcn/ui and 
+Radix UI primitives. Fixing this properly 
+would require replacing the component 
+library entirely — a 2-3 day refactor 
+that was not worth attempting in the 
+final days of a one-week build.
+Accessibility: 96 
+Best Practices: 100 
+SEO: 100 
+Performance: 71-83 (best run: 83)
 
 ---
 
