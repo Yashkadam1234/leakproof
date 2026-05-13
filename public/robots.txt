@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leakproof-gules.vercel.app/sitemap.xml
