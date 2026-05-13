@@ -25,7 +25,7 @@ discounted AI infrastructure credits.
 ![Landing Page](./public/screenshots/landing_page.png)
 
 ### Audit results
-![Audit Results](./public/screenshots/reasult_page.png)
+![Audit Results](./public/screenshots/result_page.png)
 
 ### Twitter OG preview
 ![Twitter card showing OG Preview](./public/screenshots/twitter_post_OGpreview.png)
