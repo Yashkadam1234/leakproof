@@ -227,7 +227,7 @@ to make it read as real analysis.
 **Blockers / what I'm stuck on:** Only
 got 2 user interviews instead of 3. Sent
 40+ DMs but most went unanswered. Decided
-to document this honestly rather than
+to document honestly rather than
 fabricate — the assignment is explicit
 that faking interviews is an instant
 reject. Starting outreach on day 1
