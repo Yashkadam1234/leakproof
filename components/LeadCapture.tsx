@@ -166,6 +166,7 @@ export default function LeadCapture({
             <Input
               id="email"
               type="email"
+              autoComplete="email"
               placeholder="you@company.com"
               required
               value={form.email}
@@ -186,6 +187,7 @@ export default function LeadCapture({
             <Input
               id="companyName"
               type="text"
+              autoComplete="organization"
               placeholder="Acme Inc."
               value={form.companyName}
               onChange={(e) =>
@@ -205,6 +207,7 @@ export default function LeadCapture({
             <Input
               id="role"
               type="text"
+              autoComplete="organization-title"
               placeholder="CTO, Engineer, Ops..."
               value={form.role}
               onChange={(e) =>
