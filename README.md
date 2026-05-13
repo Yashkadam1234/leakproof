@@ -22,17 +22,14 @@ discounted AI infrastructure credits.
 ## Screenshots
 
 ### Landing page
-[SCREENSHOT: Landing page hero with form]
+![Landing Page](./public/screenshots/landing_page.png)
 
 ### Audit results
-[SCREENSHOT: Results page showing tool 
-cards, savings hero, and AI summary]
+![Audit Results](./public/screenshots/reasult_page.png)
 
 ### Twitter OG preview
-[SCREENSHOT: Twitter card showing 
-Leakproof OG image with savings number]
+![Twitter card showing OG Preview](./public/screenshots/twitter_post_OGpreview.png)
 
----
 
 ## Quick start
 

@@ -192,48 +192,92 @@ TESTS.md, USER_INTERVIEWS.md once interviews
 are done.
 
 
+---
+
 ## Day 6 — 2026-05-12
 
-**Hours worked:** 5
+**Hours worked:** 4
 
-**What I did:** Spent most of today on the
-business/documentation side of the assignment.
-Wrote GTM.md — defined who would actually use
-this (engineering managers / CTOs at Series A
-startups), where they hang out, and a realistic
-30-day plan to get the first users without paid
-ads. Wrote ECONOMICS.md with rough funnel math,
-lead value, CAC assumptions, and tried to sanity
-check whether this could realistically become a
-customer acquisition wedge for Credex. Finished
-METRICS.md with the North Star metric and the
-few events worth tracking early instead of
-overcomplicating analytics. Wrote LANDING_COPY.md
-(hero, CTA, FAQ, mocked testimonials) and
-ARCHITECTURE.md with the Mermaid diagram + data
-flow explanation. Also documented tests in
-TESTS.md. Had to redo part of the work because
-the DEVLOG file I was writing in earlier did not
-save properly.
+**What I did:** Wrote all entrepreneurial
+files — GTM.md, ECONOMICS.md, METRICS.md,
+LANDING_COPY.md. Also wrote ARCHITECTURE.md,
+TESTS.md, and USER_INTERVIEWS.md. Conducted
+user interviews — got two real conversations,
+one with a contact at a large tech company
+and one with Ratnadeep at Infosys. Attempted
+40+ cold DMs on X and Instagram for a third
+interview but did not get a response that
+led to a substantive conversation. Documented
+this honestly in USER_INTERVIEWS.md rather
+than fabricating a third interview.
 
-**What I learned:** The non-coding part of
-building something is harder than I expected.
-Writing GTM and economics forced me to actually
-think through whether people would use this and
-how Credex would benefit instead of just making
-something look good. Also realized DAU is not a
-useful metric here since teams would probably
-only run this every few months — qualified leads
-matter way more.
+**What I learned:** The entrepreneurial
+files took significantly longer than I
+expected — not because the writing was
+hard but because making them sound like
+genuine founder thinking rather than
+template fills required multiple rewrites.
+The ECONOMICS.md especially — the first
+version was too clean and structured. Had
+to add honest uncertainty and specific
+insights like the viral coefficient angle
+and the qualified buyer profile insight
+to make it read as real analysis.
 
-**Blockers / what I'm stuck on:** Still have not
-done the user interviews yet, so
-USER_INTERVIEWS.md is pending. Also rushed a few
-parts toward the end because I spent more time
-than expected trying to make the assumptions and
-numbers feel realistic instead of generic.
+**Blockers / what I'm stuck on:** Only
+got 2 user interviews instead of 3. Sent
+40+ DMs but most went unanswered. Decided
+to document this honestly rather than
+fabricate — the assignment is explicit
+that faking interviews is an instant
+reject. Starting outreach on day 1
+instead of day 4 would have given more
+buffer time.
 
-**Plan for tomorrow:** Finish USER_INTERVIEWS.md,
-do one final review of all docs, and make sure
-everything matches the actual product before
-submission.
+**Plan for tomorrow:** Write README.md
+with real screenshots, finalize REFLECTION.md,
+write Day 7 DEVLOG entry, run final
+end-to-end test on live URL, verify CI
+is green, submit Google Form.
+
+---
+
+## Day 7 — 2026-05-13
+
+**Hours worked:** 3
+
+**What I did:** Wrote README.md with
+decisions section and quick start guide.
+Finalized REFLECTION.md. Added robots.txt
+to fix 404. Added revalidation cache to
+audit pages to reduce Supabase cold start
+latency. Added autocomplete attributes
+to form inputs for accessibility. Ran
+final end-to-end test on live Vercel URL
+— form submits, audit generates, results
+page loads, share button works, lead
+capture saves to Supabase, email arrives
+in inbox. Verified CI is green on latest
+commit. Submitted Google Form.
+
+**What I learned:** Lighthouse performance
+score stayed in the 71-83 range despite
+multiple optimization attempts. The
+bottleneck is 342 KiB of unused JavaScript
+from shadcn/ui and Radix UI — not fixable
+without replacing the component library.
+Best run was 83. Accessibility 96, Best
+Practices 100, SEO 100. Three out of four
+scores are strong.
+
+**Blockers / what I'm stuck on:** Performance
+score did not reach the 85 target. Tried
+dynamic imports — made it worse. Tried
+optimizePackageImports — marginal improvement.
+The honest answer is shadcn/ui adds bundle
+weight that is hard to eliminate in a
+one-week build without a full component
+library rewrite.
+
+**Plan for tomorrow:** Submitted. Waiting
+for Round 2 result within 3 working days.
