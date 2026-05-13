@@ -152,4 +152,4 @@ built-in pooling before hitting those limits.
 The architecture is intentionally simple 
 for a one-week build. None of these scaling 
 changes are hard — they just were not 
-worth the time at this stage.
+worth the time at this stage. 
