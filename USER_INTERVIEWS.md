@@ -1,6 +1,6 @@
 # USER_INTERVIEWS.md
 
-## Interview 1 — V.K., SWE, Google 
+## Interview 1 — Venkatesh, SWE, Google 
 
 **Date:** 2026-05-10
 **Duration:** ~8 minutes (WhatsApp text)
@@ -10,7 +10,7 @@ tech company
 
 **Context:** Software engineer at google 
 and currently working on a android application 
- the android team . Uses AI tools
+with the android team . Uses AI tools
 daily for coding work. The conversation
 was brief — he responded but did not
 have much time to go deep.
