@@ -274,8 +274,13 @@ export const TOOLS_CATALOG: Tool[] = [
 /**
  * Utility helper to locate a tool by ID.
  */
-function getTool(toolId: string): Tool | undefined {
-    return TOOLS_CATALOG.find((tool) => tool.id === toolId);
+function getTool(
+    toolId: string,
+    toolsCatalog: Tool[] = TOOLS_CATALOG
+): Tool | undefined {
+    return toolsCatalog.find(
+        (tool) => tool.id === toolId
+    );
 }
 
 /**
@@ -296,8 +301,11 @@ function getPlan(tool: Tool, planId: string): Plan | undefined {
  * - Is the company under-buying and creating governance risk?
  * - Is premium pricing justified by workload intensity?
  */
-export function checkPlanFit(input: AuditInput): AuditResult {
-    const tool = getTool(input.toolId);
+export function checkPlanFit(
+    input: AuditInput, 
+    toolsCatalog: Tool[]= TOOLS_CATALOG
+): AuditResult {
+    const tool = getTool(input.toolId,toolsCatalog);
 
     if (!tool) {
         throw new Error(`Tool not found: ${input.toolId}`);
@@ -438,9 +446,13 @@ export function checkPlanFit(input: AuditInput): AuditResult {
  * would already reduce spend.
  */
 export function checkCheaperSameTool(
-    input: AuditInput
+    input: AuditInput,
+    toolsCatalog: Tool[] = TOOLS_CATALOG
 ): AuditResult | null {
-    const tool = getTool(input.toolId);
+    const tool = getTool(
+        input.toolId,
+        toolsCatalog
+    );
 
     if (!tool) {
         return null;
@@ -621,13 +633,17 @@ export function checkCredexOpportunity(
 export function generateAuditReport(
     inputs: AuditInput[],
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _teamSize: number
+    _teamSize: number,
+    toolsCatalog: Tool[] = TOOLS_CATALOG
 ): AuditReport {
     const results: AuditResult[] = [];
 
     for (const input of inputs) {
-        const planFit = checkPlanFit(input);
-        const cheaperSameTool = checkCheaperSameTool(input);
+        const planFit = checkPlanFit(
+            input,
+            toolsCatalog
+        );
+        const cheaperSameTool = checkCheaperSameTool(input,toolsCatalog);
         const alternativeTool = checkAlternativeTool(input);
 
         /**
