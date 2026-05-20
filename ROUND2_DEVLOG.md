@@ -48,4 +48,24 @@ after pricing updates instead of notifying
 users for every small pricing diff.
 
 
- 
+## 2026-05-20 22:28 — Notification workflow
+
+Built /api/detect-changes endpoint and grouped
+affected audits by user email so users receive
+one consolidated notification instead of
+multiple emails.
+
+Added notification-email.ts for HTML emails
+showing:
+- old vs new pricing
+- updated savings impact
+- direct audit re-run links
+
+Also added /api/cron endpoint + vercel.json
+cron config for weekly automatic checks.
+
+Biggest issue here was duplicate notification
+handling. Initial notification_log constraint
+design did not work well for users with
+multiple affected audits, so had to rethink
+how notification tracking should work.
