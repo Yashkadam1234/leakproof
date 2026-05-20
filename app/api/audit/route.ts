@@ -4,6 +4,7 @@ import type { AuditInput } from "@/types";
 
 import { generateAuditReport } from "@/lib/audit-engine";
 import { generateAuditSummary } from "@/lib/anthropic";
+import { getCurrentPricingSnapshot } from "@/lib/pricing-snapshot";
 import { supabase } from "@/lib/supabase";
 import { rateLimit } from "@/lib/rate-limit";
 
@@ -98,7 +99,7 @@ function validateInputs(
 
     if (
       typeof candidate.monthlySpend !==
-      "number" ||
+        "number" ||
       Number.isNaN(candidate.monthlySpend) ||
       candidate.monthlySpend <= 0
     ) {
@@ -143,10 +144,6 @@ export async function POST(
   try {
     /**
      * IP-based rate limiting.
-     *
-     * Restricts abuse/spam audit generation
-     * while keeping the tool accessible
-     * without requiring auth.
      */
     const ip =
       request.headers.get(
@@ -154,6 +151,7 @@ export async function POST(
       ) ?? "unknown";
 
     const limited = rateLimit(ip);
+
     if (limited) {
       return Response.json(
         { error: "Too many requests" },
@@ -164,6 +162,7 @@ export async function POST(
     const body = (await request.json()) as {
       inputs?: unknown;
       teamSize?: unknown;
+      userEmail?: unknown;
     };
 
     const validation = validateInputs(
@@ -192,6 +191,21 @@ export async function POST(
       body.teamSize as number;
 
     /**
+     * Optional email capture for Round 2.
+     */
+    const userEmail =
+      typeof body.userEmail === "string" &&
+      body.userEmail.trim().length > 0
+        ? body.userEmail.trim()
+        : null;
+
+    /**
+     * Capture pricing state at audit time.
+     */
+    const pricingSnapshot =
+      getCurrentPricingSnapshot();
+
+    /**
      * Generate deterministic financial analysis.
      */
     const report = generateAuditReport(
@@ -201,7 +215,6 @@ export async function POST(
 
     /**
      * Generate narrative AI summary.
-     * Falls back gracefully if AI fails.
      */
     const aiSummary =
       await generateAuditSummary(report);
@@ -209,6 +222,7 @@ export async function POST(
     const finalReport = {
       ...report,
       aiSummary,
+      pricingSnapshot,
     };
 
     /**
@@ -219,11 +233,20 @@ export async function POST(
       .insert({
         slug: finalReport.slug,
         report_json: finalReport,
-        created_at: new Date().toISOString(),
+        created_at:
+          new Date().toISOString(),
+
+        user_email: userEmail,
+        pricing_snapshot:
+          pricingSnapshot,
       });
 
     if (error) {
-      console.error("Failed to save audit:",error);
+      console.error(
+        "Failed to save audit:",
+        error
+      );
+
       return NextResponse.json(
         {
           error:

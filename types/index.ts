@@ -51,6 +51,29 @@ export interface AuditResult {
   status: AuditStatus;
 }
 
+/**
+ * Round 2 pricing snapshot.
+ *
+ * Stores the exact vendor pricing used
+ * when the audit was generated.
+ */
+export interface PricingSnapshot {
+  version: string;
+
+  tools: Record<
+    string,
+    {
+      plans: Record<
+        string,
+        {
+          name: string;
+          pricePerSeat: number;
+        }
+      >;
+    }
+  >;
+}
+
 export interface AuditReport {
   slug: string;
   inputs: AuditInput[];
@@ -60,6 +83,11 @@ export interface AuditReport {
   aiSummary: string;
   createdAt: string;
   showCredexCta: boolean;
+
+  /**
+   * Optional to preserve Round 1 compatibility.
+   */
+  pricingSnapshot?: PricingSnapshot;
 }
 
 export interface Lead {
