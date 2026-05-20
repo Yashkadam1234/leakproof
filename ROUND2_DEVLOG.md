@@ -24,9 +24,11 @@ Starting with DB schema first.
  — Pricing DB done
 
 Added pricing_snapshot, user_email, is_stale
-columns to audits table. Also created
-notification_log table to prevent duplicate emails.
+and stale_reason columns to audits table. Also
+created pricing_history table and notification_log
+table to track pricing versions and prevent
+duplicate emails.
 
-Took longer than expected — had to check
-existing RLS policies to make sure new
-columns are covered.
+Took longer than expected because I wanted the
+Round 2 schema to stay compatible with the
+existing Round 1 audits and leads tables.
