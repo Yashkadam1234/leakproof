@@ -20,8 +20,7 @@ already have the slug I need for the re-run link.
 
 Starting with DB schema first.
 
-## 2026-05-20 14:08
- — Pricing DB done
+## 2026-05-20 14:08 — Pricing DB done
 
 Added pricing_snapshot, user_email, is_stale
 and stale_reason columns to audits table. Also
@@ -32,3 +31,18 @@ duplicate emails.
 Took longer than expected because I wanted the
 Round 2 schema to stay compatible with the
 existing Round 1 audits and leads tables.
+
+## 2026-05-20 20:33 — Pricing monitoring logic
+
+Built pricing-monitor.ts to compare stored
+pricing snapshots against current tool pricing.
+Added logic to detect:
+- price increases
+- price decreases
+- added plans
+- removed plans
+
+Also added logic to determine whether an
+existing audit result would actually change
+after pricing updates instead of notifying
+users for every small pricing diff.
