@@ -11,3 +11,11 @@ Key decisions to make:
 Going with manual /api/detect-changes 
 endpoint first, Vercel Cron as bonus.
 Supabase already set up from Round 1.
+
+## 2026-05-20 01:34 — Decided on approach
+
+Will add columns to existing audits table
+rather than new table — simpler and audits
+already have the slug I need for the re-run link.
+
+Starting with DB schema first.
