@@ -64,7 +64,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "copilot-pro-plus",
                 name: "Pro+",
-                pricePerSeat: 85,
+                pricePerSeat: 90,
                 billingType: "per_seat",
             },
             {
