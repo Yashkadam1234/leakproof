@@ -99,7 +99,7 @@ async function processPricingChanges(): Promise<DetectChangesSummary> {
 
     try {
       await resend.emails.send({
-        from: "Leakproof <audit@yourdomain.com>",
+        from: "Leakproof  <onboarding@resend.dev>",
         to: userEmail,
         subject: email.subject,
         html: email.html,
