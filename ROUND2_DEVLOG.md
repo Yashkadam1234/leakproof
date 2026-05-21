@@ -135,7 +135,7 @@ Resend onboarding sender temporarily so the
 full flow can be tested end-to-end.
 
 Also verified duplicate notification
-protection works correctly. Once a pricing
+protection works correctly. Once pricing
 version is recorded in notification_log,
 re-running detect-changes no longer sends
 duplicate emails for the same pricing state.
@@ -143,3 +143,28 @@ duplicate emails for the same pricing state.
 Spent additional time validating how pricing
 versions should behave when tool prices
 change multiple times during local testing.
+
+## 2026-05-21 16:35 — Diff page implementation
+
+Built the stale audit comparison experience
+users see after clicking the pricing update
+email link.
+
+Added /audit/[slug]/diff page to compare:
+- previous recommendations
+- updated recommendations
+- old vs new savings estimates
+
+Created reusable AuditDiff component for
+side-by-side recommendation rendering and
+delta highlighting.
+
+Spent some time debugging Next.js 16 async
+params handling in dynamic routes. The diff
+page was returning 404s because params.slug
+must now be awaited before usage.
+
+Also cleaned up the updated savings hero
+section and added links for:
+- running a fresh audit
+- viewing the original audit
