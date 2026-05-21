@@ -21,7 +21,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "cursor-individual",
                 name: "Individual",
-                pricePerSeat: 99,
+                pricePerSeat: 40,
                 billingType: "per_seat",
             },
             {
