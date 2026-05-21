@@ -1,6 +1,6 @@
 import { getCurrentPricingSnapshot } from "@/lib/pricing-snapshot";
 import { supabase } from "@/lib/supabase";
-import { generateAuditReport} from "@/lib/audit-engine";
+import { generateAuditReport } from "@/lib/audit-engine";
 
 import type {
   AuditInput,
@@ -17,10 +17,10 @@ export interface PricingChange {
   oldPrice: number;
   newPrice: number;
   changeType:
-    | "price_increase"
-    | "price_decrease"
-    | "plan_added"
-    | "plan_removed";
+  | "price_increase"
+  | "price_decrease"
+  | "plan_added"
+  | "plan_removed";
 }
 
 export interface AffectedAudit {
@@ -134,7 +134,7 @@ export function detectPricingChanges(
             currentPlan.pricePerSeat,
           changeType:
             currentPlan.pricePerSeat >
-            storedPlan.pricePerSeat
+              storedPlan.pricePerSeat
               ? "price_increase"
               : "price_decrease",
         });
@@ -221,12 +221,12 @@ export function wouldAuditChange(
     JSON.stringify(
       oldReport.results
     ) !==
-      JSON.stringify(
-        newReport.results
-      ) ||
+    JSON.stringify(
+      newReport.results
+    ) ||
     oldReport
       .totalMonthlySavings !==
-      newReport.totalMonthlySavings
+    newReport.totalMonthlySavings
   );
 }
 
@@ -286,7 +286,15 @@ export async function getAffectedAudits(): Promise<
         currentSnapshot
       );
 
-    if (!changed) {
+    const affectedPlanIds = new Set(
+      changes.map((change) => change.planId)
+    );
+
+    const auditUsesChangedPlan = report.inputs.some(
+      (input) => affectedPlanIds.has(input.planId)
+    );
+
+    if (!changed && !auditUsesChangedPlan) {
       continue;
     }
 

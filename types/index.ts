@@ -98,3 +98,12 @@ export interface Lead {
   auditSlug: string;
   capturedAt: string;
 }
+
+export interface AuditDiff {
+  toolId: string;
+  toolName: string;
+  oldResult: AuditResult;
+  newResult: AuditResult;
+  savingsDelta: number;
+  changed: boolean;
+}

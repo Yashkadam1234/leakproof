@@ -33,7 +33,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "cursor-pro",
                 name: "Pro",
-                pricePerSeat: 40,
+                pricePerSeat: 60,
                 billingType: "per_seat",
             },
             {
@@ -109,7 +109,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "claude-max",
                 name: "Max",
-                pricePerSeat: 100,
+                pricePerSeat: 150,
                 billingType: "per_seat",
             },
             {
@@ -632,7 +632,6 @@ export function checkCredexOpportunity(
  */
 export function generateAuditReport(
     inputs: AuditInput[],
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _teamSize: number,
     toolsCatalog: Tool[] = TOOLS_CATALOG
 ): AuditReport {
