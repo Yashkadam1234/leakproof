@@ -1,6 +1,9 @@
 import type { AffectedAudit } from "@/lib/pricing-monitor";
 
-const BASE_URL = "https://leakproof-gules.vercel.app";
+const BASE_URL =
+  process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 function formatCurrency(value: number): string {
   return `$${value.toLocaleString()}`;
