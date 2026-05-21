@@ -23,11 +23,11 @@ ran an audit six months ago and bookmarked
 the result is now looking at wrong numbers 
 without knowing it.
 
-The assumption I made: users who captured 
-their email through the lead form actually 
-want to be notified. They opted in by 
-submitting their email — that intent carries 
-forward to pricing change notifications.
+One assumption I made here: if a user entered
+their email to save the audit, they are okay
+with getting notified later if pricing changes
+make that audit stale. I did not build a
+separate opt-in flow for Round 2.
 
 ## How it works
 New audit created
@@ -62,10 +62,9 @@ New files:
 ## What I cut
 
 - **One-click unsubscribe in email** — the 
-  bonus feature. Would need a new DB column 
-  and an unsubscribe API route. Worth building 
-  but the diff view felt more valuable to 
-  get right first in the time available.
+  bonus feature.Would have needed another DB field 
+  plus unsubscribe handling. I prioritized getting 
+  the stale audit flow working end-to-end first.
 
 - **"What changed this week" public page** — 
   also bonus. Skipped entirely. The detection 
@@ -177,10 +176,11 @@ Skipped due to time:
   then we update the audit engine logic (not 
   just prices), the comparison might flag audits 
   as stale when the recommendation would 
-  actually be the same. The current detection 
-  compares engine output not just prices. 
-  Need to decide whether logic changes should 
-  also trigger notifications.
+  actually be the same. Right now the stale check 
+  compares actual audit output, not just raw prices.
+  That means future audit-engine logic changes could
+  also mark old audits as stale. Not fully sure yet
+  if that is the right behavior.
 
 - **Scale** — getAffectedAudits() fetches all 
   audits and compares in memory. Fine at current 
