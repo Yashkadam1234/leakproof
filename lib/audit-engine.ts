@@ -21,7 +21,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "cursor-individual",
                 name: "Individual",
-                pricePerSeat: 40,
+                pricePerSeat: 20,
                 billingType: "per_seat",
             },
             {
@@ -109,7 +109,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "claude-max",
                 name: "Max",
-                pricePerSeat: 199,
+                pricePerSeat: 250,
                 billingType: "per_seat",
             },
             {
