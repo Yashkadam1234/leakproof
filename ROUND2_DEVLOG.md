@@ -79,3 +79,42 @@ diff UI page for stale audits.
 
 Also need to validate cron behavior locally
 before deploying the Vercel schedule.
+
+## 2026-05-21 14:05 — Stale audit persistence + detection fixes
+
+Continued testing the full Round 2 stale
+audit workflow.
+
+Updated generateAuditReport() so audits can
+be re-run against historical pricing snapshots
+without mutating the global tool catalog.
+
+Refined pricing-monitor.ts detection logic.
+Initially audits only became stale if the
+final recommendation text changed, which
+missed cases where the audited plan pricing
+changed but the recommendation wording stayed
+similar.
+
+Adjusted stale detection to also flag audits
+when the exact audited plan changes pricing.
+
+Also fixed lead capture persistence.
+Emails were correctly saving into the leads
+table but were not being attached back to
+the matching audit row, which prevented stale
+notification emails from being sent later.
+
+Updated /api/leads to sync captured emails
+into audits.user_email after successful lead
+submission.
+
+Retested:
+- audit creation
+- pricing snapshot persistence
+- stale audit detection
+- lead capture flow
+- Supabase audit updates
+
+pricing_snapshot, user_email and is_stale
+are now persisting correctly together.
