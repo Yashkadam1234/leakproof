@@ -118,3 +118,28 @@ Retested:
 
 pricing_snapshot, user_email and is_stale
 are now persisting correctly together.
+
+## 2026-05-21 15:38 — Pricing notification debugging
+
+Continued testing the stale audit workflow
+with real pricing changes and repeated
+detect-changes runs.
+
+Found an issue where notification emails
+were not reaching the inbox even though the
+detect-changes flow was running and creating
+notification_log entries.
+
+Switched notification routes to use the
+Resend onboarding sender temporarily so the
+full flow can be tested end-to-end.
+
+Also verified duplicate notification
+protection works correctly. Once a pricing
+version is recorded in notification_log,
+re-running detect-changes no longer sends
+duplicate emails for the same pricing state.
+
+Spent additional time validating how pricing
+versions should behave when tool prices
+change multiple times during local testing.
