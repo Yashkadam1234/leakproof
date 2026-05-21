@@ -117,25 +117,48 @@ Or call the detect-changes endpoint with
 the current catalog — the snapshot stored 
 in step 1 will differ from the current one.
 
-**Step 4 — Trigger detection**
+Step 4 — Trigger detection
 
-POST https://leakproof-gules.vercel.app/api/detect-changes
+Use the latest working preview deployment:
 
-Expected response:
+Endpoint:
+POST https://leakproof-201mv8wpt-yashs-projects-055aeb14.vercel.app/api/detect-changes
+
+PowerShell:
+
+powershell
+Invoke-RestMethod `
+  -Method POST `
+  -Uri "https://leakproof-201mv8wpt-yashs-projects-055aeb14.vercel.app/api/detect-changes"
+
+Bash / macOS / Linux:
+curl -X POST "https://leakproof-201mv8wpt-yashs-projects-055aeb14.vercel.app/api/detect-changes"
+
+Expected response after a pricing change affects a saved audit:
+
 {
-  "auditsChecked": 1,
+  "auditsChecked": 3,
   "auditsAffected": 1,
   "emailsSent": 1,
   "errors": []
 }
 
-**Step 5 — Check inbox**
+Step 5 — Check inbox
 
-Email arrives from onboarding@resend.dev
-Subject: "Your Leakproof audit needs a refresh"
-Contains: which tool changed, old vs new price,
-link to https://leakproof-gules.vercel.app/audit/abc123/diff
+Email arrives from `onboarding@resend.dev`.
 
+The email contains:
+- which tool changed
+- old vs new price
+- a "View updated audit" button
+
+For the verified test audit, the button opens:
+
+`https://leakproof-201mv8wpt-yashs-projects-055aeb14.vercel.app/audit/xdF7hH0L-F/diff`
+
+Note: if a reviewer creates a new audit manually, the audit slug will be different, but the route format is:
+
+`/audit/[slug]/diff`
 **Step 6 — View the diff**
 
 Click the link or navigate to /audit/[slug]/diff
