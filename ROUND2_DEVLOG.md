@@ -69,3 +69,13 @@ handling. Initial notification_log constraint
 design did not work well for users with
 multiple affected audits, so had to rethink
 how notification tracking should work.
+
+## 2026-05-21 10:45 — Resume work
+
+Started testing the pricing notification flow
+end-to-end. Wanted to verify duplicate emails
+are prevented correctly before building the
+diff UI page for stale audits.
+
+Also need to validate cron behavior locally
+before deploying the Vercel schedule.
