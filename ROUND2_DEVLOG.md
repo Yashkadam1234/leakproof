@@ -168,3 +168,35 @@ Also cleaned up the updated savings hero
 section and added links for:
 - running a fresh audit
 - viewing the original audit
+
+## 2026-05-21 21:26 — Final audit diff notification flow
+
+Completed the final stale audit notification flow
+for pricing updates and verified it on Vercel preview.
+
+Implemented and tested:
+- `/audit/[slug]/diff` page for stale audit comparison
+- old vs new audit recommendation display
+- old vs new monthly savings comparison
+- pricing snapshot based stale audit detection
+- notification email CTA linking to the correct diff page
+- preview deployment URL support for email buttons
+- Supabase audit reset and notification log cleanup flow
+
+Fixed the email link issue where "View updated audit"
+was opening the main production deployment instead of
+the active Vercel preview deployment.
+
+Verified the full flow using GitHub Copilot Pro+:
+- created a saved audit containing `copilot-pro-plus`
+- confirmed the saved pricing snapshot had Pro+ at 85
+- temporarily changed Pro+ price for testing
+- triggered `/api/detect-changes` from the preview URL
+- confirmed affected audit detection worked
+- confirmed notification email was sent
+- confirmed the email button opened:
+  `/audit/[slug]/diff`
+  on the correct preview deployment
+
+Restored testing changes after validation so the final
+submission does not keep temporary pricing values.
