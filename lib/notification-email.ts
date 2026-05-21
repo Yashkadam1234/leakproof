@@ -1,9 +1,21 @@
 import type { AffectedAudit } from "@/lib/pricing-monitor";
 
-const BASE_URL =
-  process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+function getBaseUrl() {
+  // Production/main deployment should use your official app URL
+  if (process.env.VERCEL_ENV === "production") {
+    return process.env.NEXT_PUBLIC_APP_URL ?? "https://leakproof-gules.vercel.app";
+  }
+
+  // Preview deployment should use the current preview URL
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Local development fallback
+  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+}
+
+const BASE_URL = getBaseUrl();
 
 function formatCurrency(value: number): string {
   return `$${value.toLocaleString()}`;
