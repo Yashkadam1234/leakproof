@@ -109,7 +109,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "claude-max",
                 name: "Max",
-                pricePerSeat: 250,
+                pricePerSeat: 200,
                 billingType: "per_seat",
             },
             {
