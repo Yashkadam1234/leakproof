@@ -1,0 +1,202 @@
+## 2026-05-20 12:50 — Start
+
+Read assignment carefully. 36 hours is tight.
+Planning before coding — 30 minutes.
+
+Key decisions to make:
+- Cron vs manual trigger endpoint
+- How to store pricing snapshot
+- Diff view layout
+
+Going with manual /api/detect-changes 
+endpoint first, Vercel Cron as bonus.
+Supabase already set up from Round 1.
+
+## 2026-05-20 13:34 — Decided on approach
+
+Will add columns to existing audits table
+rather than new table — simpler and audits
+already have the slug I need for the re-run link.
+
+Starting with DB schema first.
+
+## 2026-05-20 14:08 — Pricing DB done
+
+Added pricing_snapshot, user_email, is_stale
+and stale_reason columns to audits table. Also
+created pricing_history table and notification_log
+table to track pricing versions and prevent
+duplicate emails.
+
+Took longer than expected because I wanted the
+Round 2 schema to stay compatible with the
+existing Round 1 audits and leads tables.
+
+## 2026-05-20 20:33 — Pricing monitoring logic
+
+Built pricing-monitor.ts to compare stored
+pricing snapshots against current tool pricing.
+Added logic to detect:
+- price increases
+- price decreases
+- added plans
+- removed plans
+
+Also added logic to determine whether an
+existing audit result would actually change
+after pricing updates instead of notifying
+users for every small pricing diff.
+
+
+## 2026-05-20 22:28 — Notification workflow
+
+Built /api/detect-changes endpoint and grouped
+affected audits by user email so users receive
+one consolidated notification instead of
+multiple emails.
+
+Added notification-email.ts for HTML emails
+showing:
+- old vs new pricing
+- updated savings impact
+- direct audit re-run links
+
+Also added /api/cron endpoint + vercel.json
+cron config for weekly automatic checks.
+
+Biggest issue here was duplicate notification
+handling. Initial notification_log constraint
+design did not work well for users with
+multiple affected audits, so had to rethink
+how notification tracking should work.
+
+## 2026-05-21 10:45 — Resume work
+
+Started testing the pricing notification flow
+end-to-end. Wanted to verify duplicate emails
+are prevented correctly before building the
+diff UI page for stale audits.
+
+Also need to validate cron behavior locally
+before deploying the Vercel schedule.
+
+## 2026-05-21 14:05 — Stale audit persistence + detection fixes
+
+Continued testing the full Round 2 stale
+audit workflow.
+
+Updated generateAuditReport() so audits can
+be re-run against historical pricing snapshots
+without mutating the global tool catalog.
+
+Refined pricing-monitor.ts detection logic.
+Initially audits only became stale if the
+final recommendation text changed, which
+missed cases where the audited plan pricing
+changed but the recommendation wording stayed
+similar.
+
+Adjusted stale detection to also flag audits
+when the exact audited plan changes pricing.
+
+Also fixed lead capture persistence.
+Emails were correctly saving into the leads
+table but were not being attached back to
+the matching audit row, which prevented stale
+notification emails from being sent later.
+
+Updated /api/leads to sync captured emails
+into audits.user_email after successful lead
+submission.
+
+Retested:
+- audit creation
+- pricing snapshot persistence
+- stale audit detection
+- lead capture flow
+- Supabase audit updates
+
+pricing_snapshot, user_email and is_stale
+are now persisting correctly together.
+
+## 2026-05-21 15:38 — Pricing notification debugging
+
+Continued testing the stale audit workflow
+with real pricing changes and repeated
+detect-changes runs.
+
+Found an issue where notification emails
+were not reaching the inbox even though the
+detect-changes flow was running and creating
+notification_log entries.
+
+Switched notification routes to use the
+Resend onboarding sender temporarily so the
+full flow can be tested end-to-end.
+
+Also verified duplicate notification
+protection works correctly. Once pricing
+version is recorded in notification_log,
+re-running detect-changes no longer sends
+duplicate emails for the same pricing state.
+
+Spent additional time validating how pricing
+versions should behave when tool prices
+change multiple times during local testing.
+
+## 2026-05-21 16:35 — Diff page implementation
+
+Built the stale audit comparison experience
+users see after clicking the pricing update
+email link.
+
+Added /audit/[slug]/diff page to compare:
+- previous recommendations
+- updated recommendations
+- old vs new savings estimates
+
+Created reusable AuditDiff component for
+side-by-side recommendation rendering and
+delta highlighting.
+
+Spent some time debugging Next.js 16 async
+params handling in dynamic routes. The diff
+page was returning 404s because params.slug
+must now be awaited before usage.
+
+Also cleaned up the updated savings hero
+section and added links for:
+- running a fresh audit
+- viewing the original audit
+
+## 2026-05-21 21:26 — Final audit diff notification flow
+
+Completed the final stale audit notification flow
+for pricing updates and verified it on Vercel preview.
+
+Implemented and tested:
+- `/audit/[slug]/diff` page for stale audit comparison
+- old vs new audit recommendation display
+- old vs new monthly savings comparison
+- pricing snapshot based stale audit detection
+- notification email CTA linking to the correct diff page
+- preview deployment URL support for email buttons
+- Supabase audit reset and notification log cleanup flow
+
+Fixed the email link issue where "View updated audit"
+was opening the main production deployment instead of
+the active Vercel preview deployment.
+
+Verified the full flow using GitHub Copilot Pro+:
+- created a saved audit containing `copilot-pro-plus`
+- confirmed the saved pricing snapshot had Pro+ at 85
+- temporarily changed Pro+ price for testing
+- triggered `/api/detect-changes` from the preview URL
+- confirmed affected audit detection worked
+- confirmed notification email was sent
+- confirmed the email button opened:
+  `/audit/[slug]/diff`
+  on the correct preview deployment
+
+Restored testing changes after validation so the final
+submission does not keep temporary pricing values.

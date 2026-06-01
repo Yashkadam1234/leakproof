@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 import { supabase } from "@/lib/supabase";
-import type { AuditReport} from "@/types";
+import type { AuditReport } from "@/types";
 
 const resend = new Resend(
   process.env.RESEND_API_KEY
@@ -177,17 +177,17 @@ export async function POST(
     /**
      * Save lead to database.
      */
- const { error: leadError } =
-  await supabase
-    .from("leads")
-    .insert({
-      email: body.email,
-      company_name: body.companyName,
-      role: body.role,
-      team_size: body.teamSize,
-      audit_slug: body.auditSlug,
-      captured_at: new Date().toISOString(),
-    });
+    const { error: leadError } =
+      await supabase
+        .from("leads")
+        .insert({
+          email: body.email,
+          company_name: body.companyName,
+          role: body.role,
+          team_size: body.teamSize,
+          audit_slug: body.auditSlug,
+          captured_at: new Date().toISOString(),
+        });
 
     if (leadError) {
       console.error(
@@ -203,6 +203,25 @@ export async function POST(
         {
           status: 500,
         }
+      );
+    }
+
+    /**
+ * Attach email to audit so stale
+ * pricing notifications can be sent later.
+ */
+    const { error: auditUpdateError } =
+      await supabase
+        .from("audits")
+        .update({
+          user_email: body.email,
+        })
+        .eq("slug", body.auditSlug);
+
+    if (auditUpdateError) {
+      console.error(
+        "Failed to update audit email:",
+        auditUpdateError
       );
     }
 
@@ -246,9 +265,8 @@ export async function POST(
             </a>
           </p>
 
-          ${
-            highSavings
-              ? `
+          ${highSavings
+          ? `
             <div style="margin-top:24px;padding:18px;border-radius:12px;background:#f5f5f5;">
               <strong>Capture more savings with Credex</strong>
               <p style="margin-top:8px;line-height:1.7;">
@@ -258,8 +276,8 @@ export async function POST(
               </p>
             </div>
           `
-              : ""
-          }
+          : ""
+        }
 
           <p style="margin-top:32px;color:#737373;font-size:14px;">
             Leakproof — AI Spend Audit
