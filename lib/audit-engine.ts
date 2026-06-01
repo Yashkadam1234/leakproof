@@ -70,7 +70,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "copilot-business",
                 name: "Business",
-                pricePerSeat: 19,
+                pricePerSeat: 25,
                 billingType: "per_seat",
             },
             {
