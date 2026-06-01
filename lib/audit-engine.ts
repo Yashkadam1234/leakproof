@@ -115,7 +115,7 @@ export const TOOLS_CATALOG: Tool[] = [
             {
                 id: "claude-team-standard",
                 name: "Team Standard",
-                pricePerSeat: 25, // using monthly price as default
+                pricePerSeat: 30, // using monthly price as default
                 billingType: "per_seat",
             },
             {
